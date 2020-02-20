@@ -1,0 +1,71 @@
+#!/usr/bin/env python3.6
+#
+# This file is part of domealertd.
+#
+# domealertd is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# domealertd is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with domealertd.  If not, see <http://www.gnu.org/licenses/>.
+
+"""Front end for the RoomAlert monitor for the Warwick one-metre & NITES telescopes"""
+
+import argparse
+import datetime
+import threading
+import Pyro4
+from warwick.observatory.domealert import Config, RJ11SensorsWatcher, SwitchSensorsWatcher
+
+# Set automatically when generating RPM package
+SOFTWARE_VERSION = 'UNKNOWN'
+
+
+class DomeAlertDaemon:
+    """Wraps a web request to the RoomAlert and dealing with its malformed responses"""
+    def __init__(self, config):
+        self._config = config
+
+        self._lock = threading.Lock()
+        self._last_measurement_date = None
+        self._last_measurement = None
+
+        self._rj11_sensors = RJ11SensorsWatcher(config.rj11_sensors)
+        self._switch_sensors = SwitchSensorsWatcher(config.switch_sensors)
+
+        self._sensor_labels = {s['id']: s for s in self._config.rj11_sensors}
+        self._sensor_labels.update({s['id']: s for s in self._config.switch_sensors})
+
+    @Pyro4.expose
+    def last_measurement(self):
+        """
+        Query the latest valid measurement.
+        """
+        data = {
+            'date': datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ'),
+            'software_version': SOFTWARE_VERSION
+        }
+
+        self._rj11_sensors.export_measurements(data)
+        self._switch_sensors.export_measurements(data)
+
+        return data
+
+    @Pyro4.expose
+    def measurement_sensors(self):
+        """Returns a dictionary of sensor definitions"""
+        return self._sensor_labels
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Dome Alert Server')
+    parser.add_argument('config', help='Path to configuration json file')
+    args = parser.parse_args()
+    _config = Config(args.config)
+    _config.daemon.launch(DomeAlertDaemon(_config))

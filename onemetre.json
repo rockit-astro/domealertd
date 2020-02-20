@@ -1,0 +1,47 @@
+{
+  "daemon": "onemetre_roomalert",
+  "log_name": "onemetre_roomalertd",
+  "rj11": [
+    {
+      "id": "internal_temp",
+      "label": "Internal Temp",
+      "units": "\u00B0C",
+      "device": "26-000000f1645c",
+      "type": "tht"
+    },
+    {
+      "id": "internal_humidity",
+      "label": "Internal Hum.",
+      "units": "%RH",
+      "device": "26-000000f1645c",
+      "type": "thh"
+    },
+    {
+      "id": "truss_temp",
+      "label": "Truss Temp",
+      "units": "\u00B0C",
+      "device": "10-000802b5bc3d",
+      "type": "t"
+    }
+  ],
+  "switches": [
+    {
+      "id": "hatch_closed",
+      "label": "Side Hatch",
+      "values": ["OPEN", "CLOSED"],
+      "channel": 0
+    },
+    {
+      "id": "trap_closed",
+      "label": "Trap Door",
+      "values": ["OPEN", "CLOSED"],
+      "channel": 1
+    },
+    {
+      "id": "security_system_safe",
+      "label": "Tel. Sec. Sys",
+      "values": ["TRIPPED", "SAFE"],
+      "channel": 2
+    }
+  ]
+}
