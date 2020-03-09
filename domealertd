@@ -62,6 +62,10 @@ class DomeAlertDaemon:
         """Returns a dictionary of sensor definitions"""
         return self._sensor_labels
 
+    @Pyro4.expose
+    def set_relay(self, enabled):
+        self._switch_sensors.set_relay(enabled)
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Dome Alert Server')

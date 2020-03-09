@@ -25,6 +25,7 @@ import RPi.GPIO as GPIO
 # TODO Change to .BOARD
 CHANNEL_PIN_TYPE = GPIO.BCM
 CHANNEL_PINS = [0, 5, 6, 13, 19, 2, 21, 26]
+RELAY_PIN = 23
 
 
 class SwitchSensorsWatcher:
@@ -40,10 +41,14 @@ class SwitchSensorsWatcher:
         GPIO.setwarnings(False)
         GPIO.setmode(CHANNEL_PIN_TYPE)
         GPIO.setup(CHANNEL_PINS, GPIO.IN)
+        GPIO.setup(RELAY_PIN, GPIO.OUT)
 
         loop = threading.Thread(target=self.__poll_inputs)
         loop.daemon = True
         loop.start()
+
+    def set_relay(self, enabled):
+        GPIO.output(RELAY_PIN, enabled)
 
     def __poll_inputs(self):
         while True:
