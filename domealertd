@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.6
+#!/usr/bin/env python3
 #
 # This file is part of domealertd.
 #
@@ -15,7 +15,6 @@
 # You should have received a copy of the GNU General Public License
 # along with domealertd.  If not, see <http://www.gnu.org/licenses/>.
 
-"""Front end for the RoomAlert monitor for the Warwick one-metre & NITES telescopes"""
 
 import argparse
 import datetime
@@ -23,12 +22,8 @@ import threading
 import Pyro4
 from warwick.observatory.domealert import Config, RJ11SensorsWatcher, SwitchSensorsWatcher
 
-# Set automatically when generating RPM package
-SOFTWARE_VERSION = 'UNKNOWN'
-
 
 class DomeAlertDaemon:
-    """Wraps a web request to the RoomAlert and dealing with its malformed responses"""
     def __init__(self, config):
         self._config = config
 
@@ -48,8 +43,7 @@ class DomeAlertDaemon:
         Query the latest valid measurement.
         """
         data = {
-            'date': datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ'),
-            'software_version': SOFTWARE_VERSION
+            'date': datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
         }
 
         self._rj11_sensors.export_measurements(data)
@@ -72,4 +66,13 @@ if __name__ == '__main__':
     parser.add_argument('config', help='Path to configuration json file')
     args = parser.parse_args()
     _config = Config(args.config)
-    _config.daemon.launch(DomeAlertDaemon(_config))
+
+    Pyro4.config.DETAILED_TRACEBACK = True
+    Pyro4.config.REQUIRE_EXPOSE = True
+
+    pyro = Pyro4.Daemon(host=_config.ip, port=_config.port)
+    uri = pyro.register(DomeAlertDaemon(_config), objectId=_config.name)
+
+    print('{} MESSAGE: Starting daemon {}'.format(datetime.datetime.utcnow(), uri))
+    pyro.requestLoop()
+    print('{} MESSAGE: Exiting daemon {}'.format(datetime.datetime.utcnow(), uri))

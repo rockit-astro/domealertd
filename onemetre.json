@@ -1,6 +1,7 @@
 {
-  "daemon": "onemetre_roomalert",
-  "log_name": "onemetre_roomalertd",
+  "name": "onemetre_domealert",
+  "ip": "10.2.6.209",
+  "port": 9008,
   "rj11": [
     {
       "id": "internal_temp",

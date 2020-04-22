@@ -20,19 +20,22 @@ import json
 import sys
 import traceback
 import jsonschema
-from warwick.observatory.common import daemons
 
 CONFIG_SCHEMA = {
     'type': 'object',
     'additionalProperties': False,
-    'required': ['daemon', 'log_name', 'rj11', 'switches'],
+    'required': ['name', 'ip', 'port', 'rj11', 'switches'],
     'properties': {
-        'daemon': {
-            'type': 'string',
-            'daemon_name': True
+        'name': {
+            'type': 'string'
         },
-        'log_name': {
-            'type': 'string',
+        'ip': {
+            'type': 'string'
+        },
+        'port': {
+            'type': 'number',
+            'min': 0,
+            'max': 65535
         },
         'rj11': {
             'type': 'array',
@@ -115,17 +118,6 @@ def __create_validator():
                          warwick.observatory.common.daemons address book
     """
     validators = dict(jsonschema.Draft4Validator.VALIDATORS)
-
-    # pylint: disable=unused-argument
-    def daemon_name(validator, value, instance, schema):
-        """Validate a string as a valid daemon name"""
-        try:
-            getattr(daemons, instance)
-        except Exception:
-            yield jsonschema.ValidationError('{} is not a valid daemon name'.format(instance))
-    # pylint: enable=unused-argument
-
-    validators['daemon_name'] = daemon_name
     return jsonschema.validators.create(meta_schema=jsonschema.Draft4Validator.META_SCHEMA,
                                         validators=validators)
 
@@ -163,7 +155,8 @@ class Config:
         # Will throw on schema violations
         validate_config(config_json)
 
-        self.daemon = getattr(daemons, config_json['daemon'])
-        self.log_name = config_json['log_name']
+        self.name = config_json['name']
+        self.ip = config_json['ip']
+        self.port = config_json['port']
         self.rj11_sensors = config_json['rj11']
         self.switch_sensors = config_json['switches']

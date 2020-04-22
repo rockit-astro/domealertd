@@ -24,4 +24,13 @@ setup(name='warwick.observatory.domealert',
       license='GNU GPLv3',
       author_email='p.chote@warwick.ac.uk',
       url='https://github.com/warwick-one-metre/domealertd',
+      scripts=['domealertd'],
+      data_files=[
+            ('/etc/domealertd', ['onemetre.json', 'test.json'])
+      ],
+      install_requires=[
+          'Pyro4>=4.75,<5',
+          'jsonschema>=2.6.0,<3',
+          'RPi.GPIO>=0.7'
+      ]
 )
