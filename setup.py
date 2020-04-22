@@ -26,7 +26,8 @@ setup(name='warwick.observatory.domealert',
       url='https://github.com/warwick-one-metre/domealertd',
       scripts=['domealertd'],
       data_files=[
-            ('/etc/domealertd', ['onemetre.json', 'test.json'])
+            ('/etc/domealertd', ['onemetre.json', 'test.json']),
+            ('/lib/systemd/system', ['domealertd@.service'])
       ],
       install_requires=[
           'Pyro4>=4.75,<5',

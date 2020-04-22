@@ -14,3 +14,9 @@ sudo apt install git python3-setuptools python3-jsonschema python3-pyro4 python3
 git clone https://github.com/warwick-one-metre/roomalertd.git
 sudo python3 setup.py install
 ```
+
+Activate server by running:
+```
+sudo systemctl enable domealertd@<device>
+```
+and then rebooting, where `[device]` is the name of the configuration to run, with matching json file (e.g. `onemetre`).

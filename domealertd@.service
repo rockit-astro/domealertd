@@ -1,0 +1,15 @@
+[Unit]
+Description=Daemon for exposing a environment conditions via Pyro.
+After=syslog.target
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Restart=on-failure
+Type=simple
+ExecStart=/usr/bin/env python3 -u /usr/local/bin/domealertd /etc/domealertd/%i.json
+StandardOutput=syslog
+StandardError=syslog
+
+[Install]
+WantedBy=multi-user.target
