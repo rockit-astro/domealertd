@@ -1,0 +1,41 @@
+{
+  "daemon": "onemetre_roomalert",
+  "log_name": "test_domealert",
+  "rj11": [
+    {
+      "id": "temp_1",
+      "label": "Temp 1",
+      "units": "\u00B0C",
+      "device": "26-000000f1645c",
+      "type": "tht"
+    },
+    {
+      "id": "humidity_1",
+      "label": "Humidity 1",
+      "units": "%RH",
+      "device": "26-000000f1645c",
+      "type": "thh"
+    },
+    {
+      "id": "temp_2",
+      "label": "Temp 2",
+      "units": "\u00B0C",
+      "device": "10-000802b5bc3d",
+      "type": "t"
+    }
+  ],
+  "switches": [
+    {
+      "id": "switch_0",
+      "label": "Switch 0",
+      "values": ["OPEN", "CLOSED"],
+      "channel": 0
+    },
+    {
+      "id": "switch_1",
+      "label": "Switch 1",
+      "values": ["OPEN", "CLOSED"],
+      "channel": 1
+    }
+  ]
+}

@@ -6,21 +6,21 @@
       "id": "internal_temp",
       "label": "Internal Temp",
       "units": "\u00B0C",
-      "device": "26-000000f1645c",
+      "device": "26-000001d312f1",
       "type": "tht"
     },
     {
       "id": "internal_humidity",
       "label": "Internal Hum.",
       "units": "%RH",
-      "device": "26-000000f1645c",
+      "device": "26-000001d312f1",
       "type": "thh"
     },
     {
       "id": "truss_temp",
       "label": "Truss Temp",
       "units": "\u00B0C",
-      "device": "10-000802b5bc3d",
+      "device": "10-000802db9a0e",
       "type": "t"
     }
   ],
