@@ -14,9 +14,11 @@
 # You should have received a copy of the GNU General Public License
 # along with domealertd.  If not, see <http://www.gnu.org/licenses/>.
 
-import datetime
+from collections import deque
+from datetime import datetime
 from glob import glob
 import os.path
+from statistics import median
 import sys
 import threading
 import time
@@ -24,16 +26,19 @@ import traceback
 
 
 class SensorWatcher:
-    def __init__(self, config, poll_rate, age_timeout):
+    def __init__(self, config, poll_rate, median_samples, age_timeout):
         self._id = config['id']
-        self._value = 0
         self._age_timeout = age_timeout
-        self._updated = datetime.datetime.min
+        self._updated = datetime.min
         self._poll_rate = poll_rate
         self._lock = threading.Lock()
         self._type = config['type']
         self._device_path = os.path.join('/sys/bus/w1/devices', config['device'])
         self._available = False
+
+        # Reject outliers by taking a median filter over buffer_size samples
+        self._buffer = deque(maxlen=median_samples)
+        self._value = 0
 
         loop = threading.Thread(target=self.__poll_sensor)
         loop.daemon = True
@@ -41,8 +46,8 @@ class SensorWatcher:
 
     def __poll_sensor(self):
         while True:
+            available = False
             updated = False
-            value = 0
             try:
                 if not os.path.exists(self._device_path):
                     continue
@@ -55,7 +60,7 @@ class SensorWatcher:
 
                     with open(paths[0], 'r') as f_file:
                         value = int(f_file.read()) / 1000.
-                        updated = True
+                        available = updated = True
 
                 else:
                     temperature_path = os.path.join(self._device_path, 'temperature')
@@ -78,15 +83,20 @@ class SensorWatcher:
 
                         sensor_rh = (vad / vdd - 0.16) / 0.0062
                         value = sensor_rh / (1.0546 - 0.00216 * temperature)
-                        updated = True
+
+                        # A race condition between temperature, vad, vdd can produce a calculated humidity > 100%
+                        # Skip these bad readings
+                        available = True
+                        updated = value <= 100
                     else:
                         value = temperature
-                        updated = True
+                        available = updated = True
 
                 if updated:
                     with self._lock:
-                        self._value = value
-                        self._updated = datetime.datetime.utcnow()
+                        self._buffer.append(value)
+                        self._value = median(self._buffer)
+                        self._updated = datetime.utcnow()
 
             except Exception:
                 if self._available:
@@ -94,24 +104,24 @@ class SensorWatcher:
                     traceback.print_exc(file=sys.stdout)
 
             finally:
-                if updated != self._available:
-                    if updated:
+                if available != self._available:
+                    if available:
                         print('Sensor ' + self._id + ' connected')
                     else:
                         print('Sensor ' + self._id + ' disconnected')
 
-                self._available = updated
+                self._available = available
                 time.sleep(self._poll_rate)
 
     def export_measurement(self, data):
         with self._lock:
             data[self._id] = round(self._value, 2)
-            data[self._id + '_valid'] = (datetime.datetime.utcnow() - self._updated).total_seconds() < 2.5
+            data[self._id + '_valid'] = (datetime.utcnow() - self._updated).total_seconds() < self._age_timeout
 
 
 class RJ11SensorsWatcher:
-    def __init__(self, sensor_config, poll_rate=1, age_timeout=2.5):
-        self._sensors = [SensorWatcher(s, poll_rate, age_timeout) for s in sensor_config]
+    def __init__(self, sensor_config, poll_rate, median_samples, age_timeout):
+        self._sensors = [SensorWatcher(s, poll_rate, median_samples, age_timeout) for s in sensor_config]
 
     def export_measurements(self, data):
         for s in self._sensors:

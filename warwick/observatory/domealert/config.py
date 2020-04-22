@@ -24,7 +24,11 @@ import jsonschema
 CONFIG_SCHEMA = {
     'type': 'object',
     'additionalProperties': False,
-    'required': ['name', 'ip', 'port', 'rj11', 'switches'],
+    'required': [
+        'name', 'ip', 'port',
+        'sensor_poll_rate', 'sensor_timeout', 'sensor_median_samples',
+        'rj11', 'switches'
+    ],
     'properties': {
         'name': {
             'type': 'string'
@@ -36,6 +40,21 @@ CONFIG_SCHEMA = {
             'type': 'number',
             'min': 0,
             'max': 65535
+        },
+        'sensor_poll_rate': {
+            'type': 'number',
+            'min': 1,
+            'max': 120
+        },
+        'sensor_timeout': {
+            'type': 'number',
+            'min': 1,
+            'max': 120
+        },
+        'sensor_median_samples': {
+            'type': 'number',
+            'min': 0,
+            'max': 120
         },
         'rj11': {
             'type': 'array',
@@ -158,5 +177,8 @@ class Config:
         self.name = config_json['name']
         self.ip = config_json['ip']
         self.port = config_json['port']
+        self.sensor_poll_rate = config_json['sensor_poll_rate']
+        self.sensor_median_samples = config_json['sensor_median_samples']
+        self.sensor_timeout = config_json['sensor_timeout']
         self.rj11_sensors = config_json['rj11']
         self.switch_sensors = config_json['switches']

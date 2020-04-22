@@ -31,7 +31,8 @@ class DomeAlertDaemon:
         self._last_measurement_date = None
         self._last_measurement = None
 
-        self._rj11_sensors = RJ11SensorsWatcher(config.rj11_sensors)
+        self._rj11_sensors = RJ11SensorsWatcher(config.rj11_sensors, config.sensor_poll_rate,
+                                                config.sensor_median_samples, config.sensor_timeout)
         self._switch_sensors = SwitchSensorsWatcher(config.switch_sensors)
 
         self._sensor_labels = {s['id']: s for s in self._config.rj11_sensors}
