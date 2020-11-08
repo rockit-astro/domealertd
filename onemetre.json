@@ -1,6 +1,6 @@
 {
-  "name": "onemetre_domealert",
-  "ip": "10.2.6.209",
+  "name": "onemetre_roomalert_daemon",
+  "ip": "10.2.6.204",
   "port": 9008,
   "sensor_poll_rate": 1,
   "sensor_timeout": 5,

@@ -1,6 +1,6 @@
 {
   "name": "test_domealert",
-  "ip": "192.168.1.218",
+  "ip": "127.0.0.1",
   "port": 9008,
   "sensor_poll_rate": 1,
   "sensor_timeout": 5,
@@ -40,6 +40,42 @@
       "label": "Switch 1",
       "values": ["OPEN", "CLOSED"],
       "channel": 1
+    },
+    {
+      "id": "switch_2",
+      "label": "Switch 2",
+      "values": ["OPEN", "CLOSED"],
+      "channel": 2
+    },
+    {
+      "id": "switch_3",
+      "label": "Switch 3",
+      "values": ["OPEN", "CLOSED"],
+      "channel": 3
+    },
+    {
+      "id": "switch_4",
+      "label": "Switch 4",
+      "values": ["OPEN", "CLOSED"],
+      "channel": 4
+    },
+    {
+      "id": "switch_5",
+      "label": "Switch 5",
+      "values": ["OPEN", "CLOSED"],
+      "channel": 5
+    },
+    {
+      "id": "switch_6",
+      "label": "Switch 6",
+      "values": ["OPEN", "CLOSED"],
+      "channel": 6
+    },
+    {
+      "id": "switch_7",
+      "label": "Switch 7",
+      "values": ["OPEN", "CLOSED"],
+      "channel": 7
     }
   ]
 }
