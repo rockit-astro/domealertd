@@ -58,8 +58,13 @@ class DomeAlertDaemon:
         return self._sensor_labels
 
     @Pyro4.expose
+    def get_relay(self):
+        return self._switch_sensors.get_relay()
+
+    @Pyro4.expose
     def set_relay(self, enabled):
         self._switch_sensors.set_relay(enabled)
+        return True
 
 
 if __name__ == '__main__':

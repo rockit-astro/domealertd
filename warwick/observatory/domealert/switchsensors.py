@@ -47,6 +47,9 @@ class SwitchSensorsWatcher:
         loop.daemon = True
         loop.start()
 
+    def get_relay(self):
+        return GPIO.input(RELAY_PIN) == GPIO.HIGH
+
     def set_relay(self, enabled):
         GPIO.output(RELAY_PIN, enabled)
 
