@@ -1,0 +1,50 @@
+{
+  "name": "goto1_domealert_daemon",
+  "ip": "10.2.6.18",
+  "port": 9008,
+  "sensor_poll_rate": 1,
+  "sensor_timeout": 5,
+  "sensor_median_samples": 5,
+  "rj11": [
+    {
+      "id": "internal_temp",
+      "label": "Internal Temp",
+      "units": "\u00B0C",
+      "device": "26-000002084a48",
+      "type": "tht"
+    },
+    {
+      "id": "internal_humidity",
+      "label": "Internal Hum.",
+      "units": "%RH",
+      "device": "26-000002084a48",
+      "type": "thh"
+    }
+  ],
+  "switches": [
+    {
+      "id": "north_shutter_open",
+      "label": "North Shutter",
+      "values": ["NOT FULL OPEN", "FULL OPEN"],
+      "channel": 0
+    },
+    {
+      "id": "south_shutter_open",
+      "label": "South Shutter",
+      "values": ["NOT FULL OPEN", "FULL OPEN"],
+      "channel": 1
+    },
+    {
+      "id": "shutters_closed",
+      "label": "Shutters Closed",
+      "values": ["NOT CLOSED", "CLOSED"],
+      "channel": 2
+    },
+    {
+      "id": "hatch_closed",
+      "label": "Hatch",
+      "values": ["OPEN", "CLOSED"],
+      "channel": 3
+    }
+  ]
+}
