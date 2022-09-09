@@ -24,7 +24,7 @@ import RPi.GPIO as GPIO
 # Pin assigment for channels 0-7
 # TODO Change to .BOARD
 CHANNEL_PIN_TYPE = GPIO.BCM
-CHANNEL_PINS = [6, 12, 13, 19, 16, 26, 20, 21]
+CHANNEL_PINS = [21, 20, 26, 16, 19, 13, 12, 6]
 RELAY_PIN = 5
 
 
