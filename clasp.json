@@ -19,6 +19,20 @@
       "units": "%RH",
       "device": "26-000000f139b1",
       "type": "thh"
+    },
+    {
+      "id": "superwasp_temperature",
+      "label": "Internal Temp",
+      "units": "\u00B0C",
+      "device": "26-000000a955f8",
+      "type": "tht"
+    },
+    {
+      "id": "superwasp_humidity",
+      "label": "Internal Hum.",
+      "units": "%RH",
+      "device": "26-000000a955f8",
+      "type": "thh"
     }
   ],
   "switches": [
