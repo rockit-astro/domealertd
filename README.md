@@ -11,12 +11,14 @@ Start by adding `dtoverlay=w1-gpio` to `/boot/config.txt` and reboot to enable t
 Install dependencies and server with:
 ```
 sudo apt install git python3-setuptools python3-jsonschema python3-pyro4 python3-rpi.gpio
-git clone https://github.com/warwick-one-metre/roomalertd.git
+git clone https://github.com/warwick-one-metre/domealertd.git
 sudo python3 setup.py install
+sudo cp <device>.json /etc/domealertd/
 ```
+where `<device>` is the name of the configuration to run, with matching json file (e.g. `onemetre`).
 
 Activate server by running:
 ```
-sudo systemctl enable domealertd@<device>
+sudo systemctl enable --now domealertd@<device>
 ```
-and then rebooting, where `[device]` is the name of the configuration to run, with matching json file (e.g. `onemetre`).
+
