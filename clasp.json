@@ -36,5 +36,17 @@
     }
   ],
   "switches": [
+    {
+      "id": "north_belt_tensioned",
+      "label": "Dome North Belt",
+      "values": ["SLACK", "TENSIONED"],
+      "channel": 0
+    },
+    {
+      "id": "south_belt_tensioned",
+      "label": "Dome South Belt",
+      "values": ["SLACK", "TENSIONED"],
+      "channel": 1
+    }
   ]
 }
