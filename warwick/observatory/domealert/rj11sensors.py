@@ -25,6 +25,17 @@ import time
 import traceback
 
 
+def read_value(f_file, retries=5):
+    attempt = 0
+    while True:
+        try:
+            return f_file.read()
+        except OSError:
+            if attempt == retries:
+                raise
+            time.sleep(0.1)
+
+
 class SensorWatcher:
     def __init__(self, config, poll_rate, median_samples, age_timeout):
         self._id = config['id']
@@ -59,14 +70,14 @@ class SensorWatcher:
                         continue
 
                     with open(paths[0], 'r') as f_file:
-                        value = int(f_file.read()) / 1000.
+                        value = int(read_value(f_file)) / 1000.
                         available = updated = True
 
                 else:
                     temperature_path = os.path.join(self._device_path, 'temperature')
 
                     with open(temperature_path, 'r') as f_file:
-                        temperature_raw = int(f_file.read())
+                        temperature_raw = int(read_value(f_file))
                         temperature = (temperature_raw >> 3) * 0.03125
 
                     if self._type == 'thh':
@@ -76,10 +87,10 @@ class SensorWatcher:
                             continue
 
                         with open(vad_path, 'r') as f_file:
-                            vad = float(f_file.read())
+                            vad = float(read_value(f_file))
 
                         with open(vdd_path, 'r') as f_file:
-                            vdd = float(f_file.read())
+                            vdd = float(read_value(f_file))
 
                         sensor_rh = (vad / vdd - 0.16) / 0.0062
                         value = sensor_rh / (1.0546 - 0.00216 * temperature)
