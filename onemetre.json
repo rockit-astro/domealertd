@@ -33,19 +33,19 @@
       "id": "hatch_closed",
       "label": "Side Hatch",
       "values": ["OPEN", "CLOSED"],
-      "channel": 7
+      "channel": 0
     },
     {
       "id": "trap_closed",
       "label": "Trap Door",
       "values": ["OPEN", "CLOSED"],
-      "channel": 6
+      "channel": 1
     },
     {
       "id": "security_system_safe",
       "label": "Tel. Sec. Sys",
       "values": ["TRIPPED", "SAFE"],
-      "channel": 5
+      "channel": 2
     }
   ]
 }
