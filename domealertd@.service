@@ -7,7 +7,7 @@ After=network-online.target
 [Service]
 Restart=on-failure
 Type=simple
-ExecStart=/usr/bin/env python3 -u /usr/local/bin/domealertd /etc/domealertd/%i.json
+ExecStart=/usr/bin/env python3 -u /usr/bin/domealertd /etc/domealertd/%i.json
 
 [Install]
 WantedBy=multi-user.target

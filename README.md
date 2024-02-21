@@ -2,7 +2,7 @@
 
 Part of the observatory software for the Warwick one-meter, NITES, and GOTO telescopes.
 
-`domealertd` is a Pyro server that runs on the DomeAlert units to provide a [roomalertd](https://github.com/warwick-one-metre/roomalertd) compatible replacement for the previous RoomAlert units.
+`domealertd` is a Pyro server that runs on the DomeAlert units to provide a [roomalertd](https://github.com/rockit-astro/roomalertd) compatible replacement for the previous RoomAlert units.
 
 
 ### Installing
