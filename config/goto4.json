@@ -10,17 +10,31 @@
   "digital_serial_timeout": 3,
   "digital": [
     {
-      "id": "internal_temp",
-      "label": "Internal Temp",
+      "id": "internal_temp_east",
+      "label": "Internal Temp (east)",
       "units": "\u00B0C",
       "channel": 0,
       "type": "temperature"
     },
     {
-      "id": "internal_humidity",
-      "label": "Internal Hum.",
+      "id": "internal_humidity_east",
+      "label": "Internal Hum. (east)",
       "units": "%RH",
       "channel": 0,
+      "type": "humidity"
+    },
+    {
+      "id": "internal_temp_west",
+      "label": "Internal Temp (west)",
+      "units": "\u00B0C",
+      "channel": 1,
+      "type": "temperature"
+    },
+    {
+      "id": "internal_humidity_west",
+      "label": "Internal Hum. (west)",
+      "units": "%RH",
+      "channel": 1,
       "type": "humidity"
     }
   ],
