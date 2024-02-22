@@ -48,6 +48,30 @@
       "label": "Hatch",
       "values": ["OPEN", "CLOSED"],
       "channel": 3
+    },
+    {
+      "id": "rain1",
+      "label": "Rain sensor 1",
+      "values": ["OPEN", "CLOSED"],
+      "channel": 4
+    },
+    {
+      "id": "rain2",
+      "label": "Rain sensor 2",
+      "values": ["OPEN", "CLOSED"],
+      "channel": 5
+    },
+    {
+      "id": "rain3",
+      "label": "Rain sensor 3",
+      "values": ["OPEN", "CLOSED"],
+      "channel": 6
+    },
+    {
+      "id": "rain4",
+      "label": "Rain sensor 4",
+      "values": ["OPEN", "CLOSED"],
+      "channel": 7
     }
   ]
 }
