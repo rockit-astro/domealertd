@@ -5,27 +5,23 @@
   "sensor_poll_rate": 1,
   "sensor_timeout": 5,
   "sensor_median_samples": 5,
-  "rj11": [
+  "digital_serial_port": "/dev/ttyACM0",
+  "digital_serial_baud": 9600,
+  "digital_serial_timeout": 3,
+  "digital": [
     {
-      "id": "temp_1",
-      "label": "Temp 1",
+      "id": "internal_temp",
+      "label": "Internal Temp",
       "units": "\u00B0C",
-      "device": "26-000000f1645c",
-      "type": "tht"
+      "channel": 0,
+      "type": "temperature"
     },
     {
-      "id": "humidity_1",
-      "label": "Humidity 1",
+      "id": "internal_humidity",
+      "label": "Internal Hum.",
       "units": "%RH",
-      "device": "26-000000f1645c",
-      "type": "thh"
-    },
-    {
-      "id": "temp_2",
-      "label": "Temp 2",
-      "units": "\u00B0C",
-      "device": "10-000802b5bc3d",
-      "type": "t"
+      "channel": 0,
+      "type": "humidity"
     }
   ],
   "switches": [

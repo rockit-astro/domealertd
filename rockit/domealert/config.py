@@ -26,8 +26,7 @@ CONFIG_SCHEMA = {
     'additionalProperties': False,
     'required': [
         'name', 'ip', 'port',
-        'sensor_poll_rate', 'sensor_timeout', 'sensor_median_samples',
-        'rj11', 'switches'
+        'sensor_poll_rate', 'sensor_timeout', 'sensor_median_samples'
     ],
     'properties': {
         'name': {
@@ -37,9 +36,20 @@ CONFIG_SCHEMA = {
             'type': 'string'
         },
         'port': {
-            'type': 'number',
+            'type': 'integer',
             'min': 0,
             'max': 65535
+        },
+        'digital_serial_port': {
+            'type': 'string',
+        },
+        'digital_serial_baud': {
+            'type': 'number',
+            'min': 0
+        },
+        'digital_serial_timeout': {
+            'type': 'number',
+            'min': 0
         },
         'sensor_poll_rate': {
             'type': 'number',
@@ -55,6 +65,34 @@ CONFIG_SCHEMA = {
             'type': 'number',
             'min': 0,
             'max': 120
+        },
+        'digital': {
+            'type': 'array',
+            'items': {
+                'type': 'object',
+                'additionalProperties': False,
+                'required': ['id', 'type', 'channel'],
+                'properties': {
+                    'id': {
+                        'type': 'string',
+                    },
+                    'type': {
+                        'type': 'string',
+                        'enum': ['temperature', 'humidity']
+                    },
+                    'channel': {
+                        'type': 'integer',
+                        'minimum': 0,
+                        'maximum': 3
+                    },
+                    'label': {
+                        'type': 'string',
+                    },
+                    'units': {
+                        'type': 'string',
+                    }
+                }
+            }
         },
         'rj11': {
             'type': 'array',
@@ -78,14 +116,6 @@ CONFIG_SCHEMA = {
                     },
                     'units': {
                         'type': 'string',
-                    },
-                    'values': {
-                        'type': 'array',
-                        'minItems': 2,
-                        'maxItems': 2,
-                        'items': {
-                            'type': 'string'
-                        }
                     }
                 }
             }
@@ -119,6 +149,12 @@ CONFIG_SCHEMA = {
                 }
             }
         }
+    },
+    'dependencies': {
+        'digital': ['digital_serial_port', 'digital_serial_baud', 'digital_serial_timeout'],
+        'digital_serial_port': ['digital_serial_baud', 'digital_serial_timeout'],
+        'digital_serial_baud': ['digital_serial_port', 'digital_serial_timeout'],
+        'digital_serial_timeout': ['digital_serial_baud', 'digital_serial_baud']
     }
 }
 
@@ -180,5 +216,9 @@ class Config:
         self.sensor_poll_rate = config_json['sensor_poll_rate']
         self.sensor_median_samples = config_json['sensor_median_samples']
         self.sensor_timeout = config_json['sensor_timeout']
-        self.rj11_sensors = config_json['rj11']
-        self.switch_sensors = config_json['switches']
+        self.digital_serial_port = config_json.get('digital_serial_port', None)
+        self.digital_serial_baud = config_json.get('digital_serial_baud', 0)
+        self.digital_serial_timeout = config_json.get('digital_serial_timeout', 0)
+        self.digital_sensors = config_json.get('digital', [])
+        self.rj11_sensors = config_json.get('rj11', [])
+        self.switch_sensors = config_json.get('switches', [])
