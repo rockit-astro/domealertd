@@ -6,7 +6,7 @@ Summary:        Common backend code for the Domealert daemons.
 Url:            https://github.com/rockit-astro/vaisalad
 BuildArch:      noarch
 BuildRequires:  python3-devel
-Requires:       python3-jsonschema python3-rpi.gpio
+Requires:       python3-jsonschema python3-rpi.gpio python3-pyserial
 
 %description
 

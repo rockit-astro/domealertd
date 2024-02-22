@@ -17,5 +17,6 @@
 """domealertd common code"""
 
 from .config import Config
+from .digitalsensors import DigitalSensorsWatcher
 from .switchsensors import SwitchSensorsWatcher
 from .rj11sensors import RJ11SensorsWatcher

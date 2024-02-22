@@ -20,7 +20,7 @@ import argparse
 import datetime
 import threading
 import Pyro4
-from rockit.domealert import Config, RJ11SensorsWatcher, SwitchSensorsWatcher
+from rockit.domealert import Config, DigitalSensorsWatcher, RJ11SensorsWatcher, SwitchSensorsWatcher
 
 
 class DomeAlertDaemon:
@@ -31,6 +31,7 @@ class DomeAlertDaemon:
         self._last_measurement_date = None
         self._last_measurement = None
 
+        self._digital_sensors = DigitalSensorsWatcher(config)
         self._rj11_sensors = RJ11SensorsWatcher(config.rj11_sensors, config.sensor_poll_rate,
                                                 config.sensor_median_samples, config.sensor_timeout)
         self._switch_sensors = SwitchSensorsWatcher(config.switch_sensors)
@@ -47,6 +48,7 @@ class DomeAlertDaemon:
             'date': datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
         }
 
+        self._digital_sensors.export_measurements(data)
         self._rj11_sensors.export_measurements(data)
         self._switch_sensors.export_measurements(data)
 
