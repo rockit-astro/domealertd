@@ -93,7 +93,13 @@ class DigitalSensorsWatcher:
 
     def export_measurements(self, data):
         for sensor in self._config.digital_sensors:
-            value = median(self._data[sensor['channel']][sensor['type']])
-            updated = self._updated[sensor['channel']][sensor['type']]
+            try:
+                value = median(self._data[sensor['channel']][sensor['type']])
+                updated = self._updated[sensor['channel']][sensor['type']]
+                valid = (datetime.datetime.utcnow() - updated).total_seconds() < self._config.sensor_timeout
+            except:
+                value = 0
+                valid = False
+
             data[sensor['id']] = round(value, 2)
-            data[sensor['id'] + '_valid'] = (datetime.datetime.utcnow() - updated).total_seconds() < self._config.sensor_timeout
+            data[sensor['id'] + '_valid'] = valid
