@@ -5,53 +5,56 @@
   "sensor_poll_rate": 1,
   "sensor_timeout": 5,
   "sensor_median_samples": 5,
-  "rj11": [
+  "digital_serial_port": "/dev/ttyACM0",
+  "digital_serial_baud": 9600,
+  "digital_serial_timeout": 3,
+  "digital": [
     {
       "id": "comp_room_temp",
       "label": "Comp. Rm. Temp",
       "units": "\u00B0C",
-      "device": "26-000000a0ca1a",
-      "type": "tht"
+      "channel": 0,
+      "type": "temperature"
     },
     {
       "id": "comp_room_humidity",
       "label": "Comp. Rm. Hum.",
       "units": "%RH",
-      "device": "26-000000a0ca1a",
-      "type": "thh"
+      "channel": 0,
+      "type": "humidity"
     },
     {
       "id": "tel_room_temp",
       "label": "Tel. Rm. Temp",
       "units": "\u00B0C",
-      "device": "26-00000278e804",
-      "type": "tht"
+      "channel": 1,
+      "type": "temperature"
     },
     {
       "id": "tel_room_humidity",
       "label": "Tel. Rm. Hum.",
       "units": "%RH",
-      "device": "26-00000278e804",
-      "type": "thh"
+      "channel": 1,
+      "type": "humidity"
     }
   ],
   "switches": [
     {
+      "id": "roof_power",
+      "label": "Roof Power",
+      "values": ["OFF", "ON"],
+      "channel": 0
+    },
+    {
       "id": "aircon_no_airflow",
       "label": "Comp. Rm. Air Con",
       "values": ["ACTIVE", "INACTIVE"],
-      "channel": 0
+      "channel": 1
     },
     {
       "id": "roof_closed",
       "label": "Roof",
       "values": ["OPEN", "CLOSED"],
-      "channel": 1
-    },
-    {
-      "id": "roof_power",
-      "label": "Roof Power",
-      "values": ["OFF", "ON"],
       "channel": 2
     }
   ]
