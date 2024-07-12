@@ -21,14 +21,14 @@
       "type": "thh"
     },
     {
-      "id": "superwasp_temperature",
+      "id": "sting_temperature",
       "label": "Internal Temp",
       "units": "\u00B0C",
       "device": "26-000000a955f8",
       "type": "tht"
     },
     {
-      "id": "superwasp_humidity",
+      "id": "sting_humidity",
       "label": "Internal Hum.",
       "units": "%RH",
       "device": "26-000000a955f8",
