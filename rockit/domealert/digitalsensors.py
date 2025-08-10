@@ -41,7 +41,8 @@ class DigitalSensorsWatcher:
             self._data[sensor['channel']][sensor['type']] = queue
             self._updated[sensor['channel']][sensor['type']] = datetime.datetime.min
 
-        threading.Thread(target=self.run, daemon=True).start()
+        if self._config.digital_serial_port:
+            threading.Thread(target=self.run, daemon=True).start()
 
     def run(self):
         """Main run loop"""
