@@ -1,9 +1,9 @@
 Name:           python3-rockit-domealert
 Version:        %{_version}
-Release:        1
+Release:        1%{dist}
 License:        GPL3
 Summary:        Common backend code for the Domealert daemons.
-Url:            https://github.com/rockit-astro/vaisalad
+Url:            https://github.com/rockit-astro/domealertd
 BuildArch:      noarch
 BuildRequires:  python3-devel
 Requires:       python3-jsonschema python3-rpi.gpio python3-pyserial

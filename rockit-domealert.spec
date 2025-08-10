@@ -1,6 +1,6 @@
 Name:      rockit-domealert
 Version:   %{_version}
-Release:   1
+Release:   1%{dist}
 Summary:   Internal conditions monitoring
 Url:       https://github.com/rockit-astro/domealertd
 License:   GPL-3.0
