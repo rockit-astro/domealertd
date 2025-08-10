@@ -61,7 +61,7 @@ class SwitchSensorsWatcher:
                     for i, pin in enumerate(CHANNEL_PINS):
                         self._channels[i] = GPIO.input(pin) == GPIO.LOW
 
-                    self._updated = datetime.datetime.utcnow()
+                    self._updated = datetime.datetime.now(datetime.timezone.utc)
                     updated = True
             except Exception:
                 if self._available:
@@ -79,7 +79,7 @@ class SwitchSensorsWatcher:
 
     def export_measurements(self, data):
         with self._lock:
-            switch_valid = (datetime.datetime.utcnow() - self._updated).total_seconds() < self._age_timeout
+            switch_valid = (datetime.datetime.now(datetime.timezone.utc) - self._updated).total_seconds() < self._age_timeout
             for s in self._config:
                 data[s['id']] = self._channels[s['channel']]
                 data[s['id'] + '_valid'] = switch_valid

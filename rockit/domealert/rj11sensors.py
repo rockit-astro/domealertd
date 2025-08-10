@@ -15,7 +15,7 @@
 # along with rockit.  If not, see <http://www.gnu.org/licenses/>.
 
 from collections import deque
-from datetime import datetime
+import datetime
 from glob import glob
 import os.path
 from statistics import median
@@ -40,7 +40,7 @@ class SensorWatcher:
     def __init__(self, config, poll_rate, median_samples, age_timeout):
         self._id = config['id']
         self._age_timeout = age_timeout
-        self._updated = datetime.min
+        self._updated = datetime.datetime.min
         self._poll_rate = poll_rate
         self._lock = threading.Lock()
         self._type = config['type']
@@ -107,7 +107,7 @@ class SensorWatcher:
                     with self._lock:
                         self._buffer.append(value)
                         self._value = median(self._buffer)
-                        self._updated = datetime.utcnow()
+                        self._updated = datetime.datetime.now(datetime.timezone.utc)
 
             except Exception:
                 if self._available:
@@ -127,7 +127,7 @@ class SensorWatcher:
     def export_measurement(self, data):
         with self._lock:
             data[self._id] = round(self._value, 2)
-            data[self._id + '_valid'] = (datetime.utcnow() - self._updated).total_seconds() < self._age_timeout
+            data[self._id + '_valid'] = (datetime.datetime.now(datetime.timezone.utc) - self._updated).total_seconds() < self._age_timeout
 
 
 class RJ11SensorsWatcher:

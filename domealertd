@@ -45,7 +45,7 @@ class DomeAlertDaemon:
         Query the latest valid measurement.
         """
         data = {
-            'date': datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
+            'date': datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
         }
 
         self._digital_sensors.export_measurements(data)
@@ -81,6 +81,6 @@ if __name__ == '__main__':
     pyro = Pyro4.Daemon(host=_config.ip, port=_config.port)
     uri = pyro.register(DomeAlertDaemon(_config), objectId=_config.name)
 
-    print(f'{datetime.datetime.utcnow()} MESSAGE: Starting daemon {uri}')
+    print(f'info: Starting daemon {uri}')
     pyro.requestLoop()
-    print(f'{datetime.datetime.utcnow()} MESSAGE: Exiting daemon {uri}')
+    print(f'info: Exiting daemon {uri}')

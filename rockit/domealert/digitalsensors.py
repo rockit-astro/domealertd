@@ -81,7 +81,7 @@ class DigitalSensorsWatcher:
                                     continue
 
                                 self._data[channel][f].append(float(fields[f]))
-                                self._updated[channel][f] = datetime.datetime.utcnow()
+                                self._updated[channel][f] = datetime.datetime.now(datetime.timezone.utc)
 
             except Exception:
                 port.close()
@@ -97,7 +97,7 @@ class DigitalSensorsWatcher:
             try:
                 value = median(self._data[sensor['channel']][sensor['type']])
                 updated = self._updated[sensor['channel']][sensor['type']]
-                valid = (datetime.datetime.utcnow() - updated).total_seconds() < self._config.sensor_timeout
+                valid = (datetime.datetime.now(datetime.timezone.utc) - updated).total_seconds() < self._config.sensor_timeout
             except:
                 value = 0
                 valid = False
